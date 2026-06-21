@@ -174,3 +174,40 @@
 .agah-scroll::-webkit-scrollbar-thumb {
   background: oklch(0.91 0.012 250); border-radius: 9999px;
 }
+
+@utility signup-input {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  padding: 0.75rem 1rem;
+  font-size: 13.5px;
+  color: var(--color-foreground);
+  outline: none;
+  transition: all 0.3s ease;
+  &::placeholder { color: var(--color-muted-foreground); }
+  &:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px oklch(0.72 0.17 165 / 0.18);
+  }
+}
+
+@utility signup-btn {
+  margin-top: 0.25rem;
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  padding: 0.85rem 1.25rem;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 10px 24px -10px oklch(0.21 0.04 265 / 0.5);
+  transition: all 0.3s ease;
+  &:hover:not(:disabled) { transform: scale(1.02); }
+  &:active:not(:disabled) { transform: scale(0.98); }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
