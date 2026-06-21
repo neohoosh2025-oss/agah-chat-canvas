@@ -252,10 +252,7 @@ function AgahApp() {
           <Header
             onMenu={() => setSidebarOpen(true)}
             showMenu={!isDesktop}
-            profile={profile}
           />
-
-          <Roadmap step={step} highlight={tour === 2} />
 
           {/* messages */}
           <div
@@ -287,7 +284,7 @@ function AgahApp() {
           />
 
           {/* Tour tooltips */}
-          {tour >= 0 && tour <= 2 && (
+          {tour >= 0 && tour <= 1 && (
             <TourOverlay step={tour} setStep={setTour} close={closeTour} />
           )}
         </div>
@@ -345,39 +342,26 @@ function AgahApp() {
 function Header({
   onMenu,
   showMenu,
-  profile,
 }: {
   onMenu: () => void;
   showMenu: boolean;
-  profile: { name?: string };
 }) {
   return (
-    <header className="relative z-10 flex items-center justify-between gap-3 border-b border-border bg-card/90 px-4 py-3 backdrop-blur-md">
-      <div className="flex min-w-0 items-center gap-3">
-        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-[var(--shadow-soft)]">
-          <Sparkles className="h-5 w-5 text-[oklch(0.85_0.16_165)]" />
-        </div>
-        <div className="min-w-0">
-          <div className="flex items-center gap-1.5">
-            <h1 className="truncate text-base font-extrabold tracking-tight text-primary">
-              آگاه
-            </h1>
-            <span className="inline-flex h-2 w-2 rounded-full bg-accent shadow-[0_0_0_4px_oklch(0.72_0.17_165/0.15)]" />
-          </div>
-          <p className="truncate text-[11px] text-muted-foreground">
-            {profile.name ? `همراه ${profile.name}` : "مشاور هوشمند کسب‌وکار"}
-          </p>
-        </div>
-      </div>
-      {showMenu && (
+    <header className="relative z-10 flex items-center justify-between gap-3 border-b border-border/60 bg-card/80 px-5 py-4 backdrop-blur-md">
+      {showMenu ? (
         <button
           onClick={onMenu}
           aria-label="منو"
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl border border-border bg-secondary text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground active:scale-95"
+          className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl border border-border bg-secondary/60 text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground active:scale-95"
         >
           <Menu className="h-5 w-5" />
         </button>
+      ) : (
+        <span className="h-10 w-10" aria-hidden />
       )}
+      <h1 className="truncate text-[17px] font-extrabold tracking-tight text-primary">
+        آگاه
+      </h1>
     </header>
   );
 }
@@ -900,11 +884,6 @@ function TourOverlay({
       body: "برای شروع سریع، یکی از این چیپ‌های آماده را انتخاب کنید.",
       pos: "bottom-44",
     },
-    {
-      title: "نقشهٔ ۷ مرحله‌ای",
-      body: "پیشرفت گفتگوی شما در ۷ گام تا گزارش نهایی این‌جا نمایش داده می‌شود.",
-      pos: "top-24",
-    },
   ];
   const t = tips[step];
   return (
@@ -924,7 +903,7 @@ function TourOverlay({
             <div className="flex items-center justify-between gap-2">
               <h4 className="text-[13px] font-extrabold text-primary">{t.title}</h4>
               <span className="text-[10px] font-medium text-muted-foreground">
-                {toFa(step + 1)} از {toFa(3)}
+                {toFa(step + 1)} از {toFa(2)}
               </span>
             </div>
             <p className="mt-1 text-[12px] leading-6 text-muted-foreground">{t.body}</p>
@@ -936,10 +915,10 @@ function TourOverlay({
                 رد کردن
               </button>
               <button
-                onClick={() => (step < 2 ? setStep(step + 1) : close())}
+                onClick={() => (step < 1 ? setStep(step + 1) : close())}
                 className="rounded-full bg-primary px-4 py-1.5 text-[12px] font-bold text-primary-foreground transition-all hover:scale-[1.03] active:scale-95"
               >
-                {step < 2 ? "بعدی" : "بزن بریم"}
+                {step < 1 ? "بعدی" : "بزن بریم"}
               </button>
             </div>
           </div>
