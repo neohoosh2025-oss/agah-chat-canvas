@@ -152,6 +152,7 @@ function AgahApp() {
   const [signupOpen, setSignupOpen] = useState(false);
   const [sheetData, setSheetData] = useState<BusinessResult | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profile, setProfile] = useState<{
     name?: string;
     business?: string;
