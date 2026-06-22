@@ -240,17 +240,22 @@ function AgahApp() {
   /* ---------------- layout ---------------- */
   return (
     <div className="h-[100dvh] w-full overflow-hidden bg-gradient-to-b from-[oklch(0.97_0.01_247)] to-[oklch(0.94_0.015_248)] text-foreground">
-      <div className="mx-auto flex h-full w-full max-w-6xl items-stretch justify-center gap-6 px-0 lg:px-6 lg:py-6">
+      <div className="mx-auto flex h-full w-full max-w-[1240px] items-stretch justify-center gap-5 px-0 lg:px-6 lg:py-6">
         {/* Desktop sidebar */}
         {isDesktop && (
-          <DesktopSidebar profile={profile} unlocked={unlocked} />
+          <DesktopSidebar
+            profile={profile}
+            unlocked={unlocked}
+            collapsed={sidebarCollapsed}
+            onToggle={() => setSidebarCollapsed((v) => !v)}
+          />
         )}
 
         {/* Chat canvas */}
         <div
           className={cn(
             "relative flex h-full w-full flex-col overflow-hidden bg-card",
-            "lg:max-w-[480px] lg:rounded-[28px] lg:border lg:border-border lg:shadow-[var(--shadow-island)]",
+            "lg:max-w-[760px] lg:flex-1 lg:rounded-[28px] lg:border lg:border-border lg:shadow-[var(--shadow-island)]",
           )}
         >
           <Header
