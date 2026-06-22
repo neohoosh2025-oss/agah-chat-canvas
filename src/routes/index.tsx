@@ -15,12 +15,15 @@ import {
   Search,
   History,
   ChevronLeft,
+  ChevronRight,
   Phone,
   Building2,
   User as UserIcon,
   LogOut,
   MessageSquare,
   Settings,
+  PanelRightClose,
+  PanelRightOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
