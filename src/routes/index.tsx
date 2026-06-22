@@ -764,13 +764,34 @@ function Section({
 function DesktopSidebar({
   profile,
   unlocked,
+  collapsed,
+  onToggle,
 }: {
   profile: { name?: string; business?: string; city?: string };
   unlocked: boolean;
+  collapsed: boolean;
+  onToggle: () => void;
 }) {
   return (
-    <aside className="hidden h-full w-72 shrink-0 flex-col rounded-[28px] border border-border bg-card p-5 shadow-[var(--shadow-island)] lg:flex">
-      <SidebarBody profile={profile} unlocked={unlocked} />
+    <aside
+      className={cn(
+        "relative hidden h-full shrink-0 flex-col rounded-[28px] border border-border bg-card shadow-[var(--shadow-island)] transition-[width] duration-300 ease-out lg:flex",
+        collapsed ? "w-[76px] p-3" : "w-[260px] p-5",
+      )}
+    >
+      {/* Toggle pinned to inner edge (left in RTL) */}
+      <button
+        onClick={onToggle}
+        aria-label={collapsed ? "باز کردن منو" : "جمع کردن منو"}
+        className="absolute -left-3 top-7 z-10 grid h-7 w-7 place-items-center rounded-full border border-border bg-card text-muted-foreground shadow-[var(--shadow-soft)] transition-all duration-300 hover:scale-105 hover:text-primary"
+      >
+        {collapsed ? (
+          <ChevronRight className="h-3.5 w-3.5" />
+        ) : (
+          <ChevronLeft className="h-3.5 w-3.5" />
+        )}
+      </button>
+      <SidebarBody profile={profile} unlocked={unlocked} collapsed={collapsed} />
     </aside>
   );
 }
@@ -792,9 +813,11 @@ function MobileSidebar({
 function SidebarBody({
   profile,
   unlocked,
+  collapsed = false,
 }: {
   profile: { name?: string; business?: string; city?: string };
   unlocked: boolean;
+  collapsed?: boolean;
 }) {
   const items = [
     { icon: MessageSquare, label: "گفتگوی جاری", active: true },
@@ -804,35 +827,45 @@ function SidebarBody({
   ];
   return (
     <>
-      <div className="flex items-center gap-3 border-b border-border pb-4">
-        <div className="grid h-11 w-11 place-items-center rounded-2xl bg-primary text-primary-foreground">
+      <div
+        className={cn(
+          "flex items-center gap-3 border-b border-border pb-4",
+          collapsed && "justify-center",
+        )}
+      >
+        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground">
           <Sparkles className="h-5 w-5 text-[oklch(0.85_0.16_165)]" />
         </div>
-        <div className="min-w-0">
-          <div className="text-base font-extrabold text-primary">آگاه</div>
-          <div className="truncate text-[11px] text-muted-foreground">
-            مشاور هوشمند کسب‌وکار
+        {!collapsed && (
+          <div className="min-w-0">
+            <div className="text-base font-extrabold text-primary">آگاه</div>
+            <div className="truncate text-[11px] text-muted-foreground">
+              مشاور هوشمند کسب‌وکار
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <nav className="mt-4 flex flex-col gap-1">
         {items.map((it) => (
           <button
             key={it.label}
+            title={collapsed ? it.label : undefined}
             className={cn(
-              "flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-medium transition-all duration-300",
+              "flex items-center gap-3 rounded-xl py-2.5 text-[13px] font-medium transition-all duration-300",
+              collapsed ? "justify-center px-0" : "px-3",
               it.active
                 ? "bg-secondary text-primary"
                 : "text-muted-foreground hover:bg-secondary hover:text-primary",
             )}
           >
-            <it.icon className="h-4 w-4" />
-            <span>{it.label}</span>
+            <it.icon className="h-4 w-4 shrink-0" />
+            {!collapsed && <span className="truncate">{it.label}</span>}
           </button>
         ))}
       </nav>
 
+      {!collapsed && (
       <div className="mt-auto rounded-2xl border border-border bg-secondary/60 p-4">
         {unlocked ? (
           <>
@@ -866,6 +899,12 @@ function SidebarBody({
           </div>
         )}
       </div>
+      )}
+      {collapsed && unlocked && (
+        <div className="mt-auto grid h-10 w-10 self-center place-items-center rounded-full bg-accent text-accent-foreground font-bold">
+          {profile.name?.[0] ?? "آ"}
+        </div>
+      )}
     </>
   );
 }
