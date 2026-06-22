@@ -356,7 +356,7 @@ function Header({
   showMenu: boolean;
 }) {
   return (
-    <header className="relative z-10 flex items-center justify-between gap-3 border-b border-border/60 bg-card/80 px-5 py-4 backdrop-blur-md">
+    <header className="relative z-10 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 border-b border-border/60 bg-card/80 px-5 py-4 backdrop-blur-md">
       {showMenu ? (
         <button
           onClick={onMenu}
@@ -368,9 +368,10 @@ function Header({
       ) : (
         <span className="h-10 w-10" aria-hidden />
       )}
-      <h1 className="truncate text-[17px] font-extrabold tracking-tight text-primary">
+      <h1 className="truncate text-center text-[17px] font-extrabold tracking-tight text-primary">
         آگاه
       </h1>
+      <span className="h-10 w-10" aria-hidden />
     </header>
   );
 }
