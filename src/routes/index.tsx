@@ -22,8 +22,6 @@ import {
   LogOut,
   MessageSquare,
   Settings,
-  PanelRightClose,
-  PanelRightOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
