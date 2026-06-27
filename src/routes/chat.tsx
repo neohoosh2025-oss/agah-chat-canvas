@@ -42,7 +42,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/chat")({
   head: () => ({
     meta: [
       { title: "آگاه | مشاور هوشمند کسب‌وکار" },
