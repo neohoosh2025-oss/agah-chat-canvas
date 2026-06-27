@@ -42,6 +42,8 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
+type ChatSearch = { q?: string };
+
 export const Route = createFileRoute("/chat")({
   head: () => ({
     meta: [
@@ -50,6 +52,9 @@ export const Route = createFileRoute("/chat")({
       { property: "og:title", content: "آگاه | مشاور هوشمند کسب‌وکار" },
       { property: "og:description", content: "تحلیل لحظه‌ای بازار، رقبا و فرصت‌های محله شما." },
     ],
+  }),
+  validateSearch: (search: Record<string, unknown>): ChatSearch => ({
+    q: typeof search.q === "string" ? search.q : undefined,
   }),
   component: AgahApp,
 });
