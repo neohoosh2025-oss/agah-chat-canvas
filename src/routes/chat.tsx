@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Menu,
@@ -169,6 +169,8 @@ const INITIAL_MESSAGE: Message = {
 
 function AgahApp() {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const search = Route.useSearch();
+  const navigate = useNavigate();
 
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [input, setInput] = useState("");
@@ -237,6 +239,18 @@ function AgahApp() {
       setThinking(false);
     }, 900);
   };
+
+  // Preload an incoming question from /?q= when navigated from the landing page.
+  const preloadedRef = useRef(false);
+  useEffect(() => {
+    if (preloadedRef.current) return;
+    const q = search.q?.trim();
+    if (!q) return;
+    preloadedRef.current = true;
+    handleSend(q);
+    navigate({ to: "/chat", search: {}, replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search.q]);
 
   const newChat = () => {
     setMessages([INITIAL_MESSAGE]);
